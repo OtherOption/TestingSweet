@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Promethus Folders and Users ') {
+            steps {
+                sh 'chmod -x setup.sh'
+                sh './setup.sh'
+                }
+ 
+            }
+
+        //END Build phase
+        }
+        
+
+        stage('Run t') {
+
+            steps {
+                def mycfg_file = 'web.yml'
+
+                sh './prometheus --web.config.file=web.yml'
+
+                configFileProvider([configFile(fileId: mycfg_file, variable: 'PACKER_OPTIONS')]) {
+                    echo " =========== ~~~~~~~~~~~~ ============ "
+                    echo " =========== ^^^^^^^^^^^^ Reading config from pipeline script "
+                    sh "sh './prometheus --web.config.file=${env.PACKER_OPTIONS}'"
+                    echo " =========== ~~~~~~~~~~~~ ============ "
+                }
+            }
+        
+        //END Run Phase
+        }
+        
+
+    }
+}

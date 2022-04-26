@@ -1,0 +1,44 @@
+##############################################################################
+#   Global Configs
+#   https://prometheus.io/docs/prometheus/latest/configuration/configuration/#alertmanager_config
+##############################################################################
+global:
+  # How frequently to scrape targets by default.
+  [ scrape_interval: 1m ]
+
+  # How long until a scrape request times out.
+  [ scrape_timeout: 10s ]
+
+  # How frequently to evaluate rules.
+  [ evaluation_interval: 1m ]
+
+  # The labels to add to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    [ mmonitor: oomini ]
+   # [ <labelname>: <labelvalue> ... ]
+
+  # TODO File to which PromQL queries are logged.
+  # Reloading the configuration will reopen the file.
+  [ query_log_file: <string> ]
+
+# TODO Rule files specifies a list of globs. Rules and alerts are read from
+# all matching files.
+rule_files:
+  [ - <filepath_glob> ... ]
+
+  # TODO A list of scrape configurations.
+scrape_configs:
+  [ - <scrape_config> ... ]
+
+# Settings related to the remote write feature.
+remote_write:
+  [ - <remote_write> ... ]
+
+# Settings related to the remote read feature.
+remote_read:
+  [ - <remote_read> ... ]
+
+# Storage related settings that are runtime reloadable.
+storage:
+  [ - <exemplars> ... ]

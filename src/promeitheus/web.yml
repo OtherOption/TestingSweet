@@ -1,0 +1,5 @@
+tls_server_config:
+  cert_file: /path/to/mycert.pem
+  key_file: /path/to/mykey.pem
+basic_auth_users:
+prom5555:$apr1$TWahx5Fk$IWUsNTjsPkg336ObW91cO.
