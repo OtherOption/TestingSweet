@@ -1,6 +1,6 @@
 ##############################################################################
 #   Global Configs
-#   https://prometheus.io/docs/prometheus/latest/configuration/configuration/#alertmanager_config
+#   https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 ##############################################################################
 global:
   # How frequently to scrape targets by default.
@@ -42,3 +42,86 @@ remote_read:
 # Storage related settings that are runtime reloadable.
 storage:
   [ - <exemplars> ... ]
+
+# Optional HTTP URL parameters.
+params:
+  [ <string>: [<string>, ...] ]
+
+# Sets the `Authorization` header on every scrape request with the
+# configured username and password.
+# password and password_file are mutually exclusive.
+basic_auth:
+  [ username: <string> ]
+  [ password: <secret> ]
+  [ password_file: <string> ]
+
+# Sets the `Authorization` header on every scrape request with
+# the configured credentials.
+authorization:
+  # Sets the authentication type of the request.
+  [ type: <string> | default: Bearer ]
+  # Sets the credentials of the request. It is mutually exclusive with
+  # `credentials_file`.
+  [ credentials: <secret> ]
+  # Sets the credentials of the request with the credentials read from the
+  # configured file. It is mutually exclusive with `credentials`.
+  [ credentials_file: <filename> ]
+
+# Configures the scrape request's TLS settings.
+tls_config:
+  [ <tls_config> ]
+
+# Optional proxy URL.
+[ proxy_url: <string> ]
+
+##############################################################################
+#   Scrape Configs Sample
+#  https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
+##############################################################################
+
+<scrape_config>
+# The job name assigned to scraped metrics by default.
+job_name: scraper
+
+# How frequently to scrape targets from this job. This overwrites the default = <global_config.scrape_interval> 
+[scrape_interval: 5s]
+
+# The HTTP resource path on which to fetch metrics from targets. default = /metrics
+[metrics_path: /data/metrics]
+
+basic_auth:
+  [ username: <string> ]
+  [ password: <secret> ]
+  [ password_file: <string> ]
+
+# myuser: $2y$12$ZcEJGmnIDSMKaeJhZsYeNukC.aJ.RhIfypct/pK5psrHEh6cB79L6
+
+# Configures the protocol scheme used for requests. | default = http 
+[ scheme: https ]
+
+##############################################################################
+#   TLs Config Sample
+#  https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
+##############################################################################
+
+<tls_config>
+
+# CA certificate to validate API server certificate with.
+[ ca_file: <filename> ]
+
+# Certificate and key files for client cert authentication to the server.
+[ cert_file: <filename> ]
+[ key_file: <filename> ]
+
+# ServerName extension to indicate the name of the server.
+# https://tools.ietf.org/html/rfc4366#section-3.1
+[ server_name: <string> ]
+
+# Disable validation of the server certificate.
+[ insecure_skip_verify: <boolean> ]
+
+# Minimum acceptable TLS version. Accepted values: TLS10 (TLS 1.0), TLS11 (TLS
+# 1.1), TLS12 (TLS 1.2), TLS13 (TLS 1.3).
+# If unset, Prometheus will use Go default minimum version, which is TLS 1.2.
+# See MinVersion in https://pkg.go.dev/crypto/tls#Config.
+[ min_version: <string> ]
